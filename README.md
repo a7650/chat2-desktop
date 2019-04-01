@@ -2,8 +2,6 @@
 
 ## 怎样使用
 
----
-
 使用前需要有 vue-cli3 , node , npm/cnpm/yarn , python , visual studio 环境
 
 npm install  //安装项目依赖（必须）
