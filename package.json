@@ -1,0 +1,62 @@
+{
+  "name": "chat2",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./main.js",
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "start": "electron .",
+    "exe": "npm run build && npm run start",
+    "asar":"asar pack dist ./pack/app.asar",
+    "packager":"electron-packager ./pack chat --win --out packagefile --arch=x64 --app.version 1.0 --overwrite --ignore=node_modules",
+    "asar--packager":"npm run asar && npm run packager"
+  },
+  "dependencies": {
+    "express": "^4.16.4",
+    "mongodb": "^3.1.13",
+    "socket.io": "^2.2.0",
+    "vue": "^2.6.6",
+    "vue-router": "^3.0.1",
+    "vue-socket.io": "^3.0.5",
+    "vuex": "^3.0.1"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.4.0",
+    "@vue/cli-plugin-eslint": "^3.4.0",
+    "@vue/cli-service": "^3.4.0",
+    "babel-eslint": "^10.0.1",
+    "babel-polyfill": "^6.26.0",
+    "eslint": "^5.8.0",
+    "eslint-plugin-vue": "^5.0.0",
+    "electron": "^4.1.3",
+    "less": "^3.0.4",
+    "less-loader": "^4.1.0",
+    "vue-template-compiler": "^2.5.21"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "rules": {},
+    "parserOptions": {
+      "parser": "babel-eslint"
+    }
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
+}
