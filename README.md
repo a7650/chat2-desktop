@@ -26,7 +26,7 @@ npm run packager //将./pack打包生成windows客户端文件，打包后的目
 
 npm run asar--packager //是前两步的集成，将./dist生成asar包并在./packagefile下生成客户端文件
 
-##其他
+## 其他
 [点击这里(网页版)](http://106.12.198.147/chatn)使用应用
 
 
