@@ -1,6 +1,13 @@
 <template>
 <Tran>
   <div class="page-login">
+    <header class="top-bar">
+      <div class="icon close" @click="close">
+        <i class="icon-false"></i>
+      </div>
+      <div class="icon min" @click="min">━━
+      </div>
+    </header>
     <div class="right">
       <transition name="login-window">
         <div class="window login-window" v-show="window===1">
@@ -15,7 +22,7 @@
             <input type="password" placeholder="密码" v-model="pas1" ref="pas1">
           </div>
           <div class="tip" v-html="tip0"></div>
-          <button class="login" @click="login">登录</button>
+          <button class="login" @click="login">登 录</button>
           <div class="more">
             <span @click="window=2">注册账号</span>
             <span>忘记密码</span>
@@ -36,7 +43,7 @@
             <input type="password" placeholder="密码" v-model="pas2" ref="pas2">
           </div>
           <div class="tip" v-html="tip"></div>
-          <button class="register" @click="register">注册</button>
+          <button class="register" @click="register">注 册</button>
           <div class="more more2">
             <span class="back" @click="window=1">返回登录界面</span>
           </div>
@@ -53,6 +60,7 @@
 <script>
 import Tran from 'base/animation/login'
 import {mapMutations} from 'vuex' 
+// import {ipcRenderer} from 'electron'
 export default {
   components:{
     Tran
@@ -72,6 +80,16 @@ export default {
     };
   },
   methods: {
+    close(){
+      if(this.$ipcRenderer){
+        this.$ipcRenderer.send('close')
+      }
+    },
+    min(){
+      if(this.$ipcRenderer){
+        this.$ipcRenderer.send('min')
+      }
+    },
     checkName2() {
       var error = false;
       switch (true) {
@@ -182,6 +200,33 @@ export default {
 
 <style lang="less" scoped>
 @import "../../assets/variable.less";
+.top-bar{
+  width: 100%;
+  height: 10px;
+  position: fixed;
+  top: 0;
+  -webkit-app-region: drag;
+  .icon{
+    width: 30px;
+    height: 30px;
+    float: right;
+    line-height: 30px;
+    text-align: center;
+    color: #777;
+    font-size: 22px;
+  }
+  .min{
+    font-size: 13px;
+  }
+  .icon:hover{
+    background-color: rgba(0, 0, 0, .2);
+    cursor: pointer;
+  }
+  .close:hover{
+    background-color:rgb(238, 55, 55);
+    color: #fff;
+  }
+}
 .left {
   position: relative;
   .bg {
@@ -194,12 +239,17 @@ export default {
 }
 .page-login {
   position: fixed;
-  top: 25px;
+  top: 30px;
   bottom: 0;
   left: 0;
   right: 0;
   animation-duration: .3s;
   transition: .5s;
+  user-select: none;
+  -webkit-app-region: drag;
+  .window{
+    -webkit-app-region: no-drag;
+  }
 }
 .left {
   height: 100%;
@@ -281,6 +331,7 @@ export default {
     background-color: @theme1;
     border: none;
     color: #fff;
+    font-size: 15px;
   }
   button:hover {
     background-color: #00ddff;

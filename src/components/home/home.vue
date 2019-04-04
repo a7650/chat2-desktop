@@ -2,6 +2,12 @@
   <Tran>
     <div class="page-home">
       <div ref="detail" class="detail" v-show="detail">{{detail_mes}}</div>
+      <div class="top-bar">
+        <div class="icon close" @click="close">
+          <i class="icon-false"></i>
+        </div>
+        <div class="icon min" @click="min">━━</div>
+      </div>
       <div class="head">
         <h3>Message</h3>
         <div class="sys">
@@ -43,6 +49,7 @@
         <div class="item">通讯</div>
         <div class="item">备忘</div>
       </div>
+      <extendBar></extendBar>
       <router-view></router-view>
     </div>
   </Tran>
@@ -51,6 +58,7 @@
 <script>
 import Tran from "base/animation/home";
 import { mapGetters, mapMutations } from "vuex";
+import extendBar from "./extend/extendBar";
 export default {
   data() {
     return {
@@ -60,15 +68,29 @@ export default {
       detail_mes: ""
     };
   },
+  components: {
+    extendBar,
+    Tran
+  },
   computed: {
     ...mapGetters(["USER", "FRIENDS"])
   },
   methods: {
-    moveDetail(e,mes){
-      this.detail_mes = mes
-      let d = this.$refs.detail
-      d.style.top = `${e.pageY + 30}px`
-      d.style.left = `${e.pageX - 50}px`
+    close(){
+      if(this.$ipcRenderer){
+        this.$ipcRenderer.send('close')
+      }
+    },
+    min(){
+      if(this.$ipcRenderer){
+        this.$ipcRenderer.send('min')
+      }
+    },
+    moveDetail(e, mes) {
+      this.detail_mes = mes;
+      let d = this.$refs.detail;
+      d.style.top = `${e.pageY + 30}px`;
+      d.style.left = `${e.pageX - 50}px`;
     },
     getDetail(mes) {
       window.alert(mes || "无");
@@ -115,9 +137,6 @@ export default {
     },
     ...mapMutations(["EXIT", "REFRESH_FS"])
   },
-  components: {
-    Tran
-  },
   sockets: {
     c_unified_home(res) {
       let type = res[0];
@@ -136,12 +155,12 @@ export default {
 @import "../../assets/mixin.less";
 .page-home {
   position: absolute;
-  top: 25px;
+  top: 0;
   bottom: 0;
   left: 0;
   right: 0;
 }
-.detail{
+.detail {
   background-color: #fff;
   padding: 15px;
   color: #000;
@@ -152,6 +171,38 @@ export default {
   border-radius: 3px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
   z-index: 100;
+}
+.top-bar{
+  position: absolute;
+  height: 20px;
+  width: 100%;
+  user-select: none;
+  -webkit-app-region: drag;
+  .icon{
+    -webkit-app-region: no-drag;
+    width: 20px;
+    height: 20px;
+    float: right;
+    line-height: 20px;
+    text-align: center;
+    font-size: 16px;
+    color: #777;
+    // i{
+    //   transform: scale(.5);
+    //   transform-origin: center;
+    // }
+  }
+  .min{
+    font-size: 6px;
+  }
+  .icon:hover{
+    background-color: rgba(0, 0, 0, .2);
+    cursor: pointer;
+  }
+  .close:hover{
+    background-color:rgb(238, 55, 55);
+    color: #fff;
+  }
 }
 .side-bar {
   width: 60px;
@@ -181,29 +232,31 @@ export default {
 .head {
   box-sizing: border-box;
   padding-left: 60px;
+  padding-top: 20px;
   height: 80px;
   border-bottom: 1px solid @line-color;
   display: flex;
   h3 {
-    line-height: 80px;
+    line-height: 60px;
     font-size: 25px;
     font-weight: bold;
     width: 290px;
     padding-left: 10px;
     float: left;
+    user-select: none;
   }
   .mine {
-    width: 150px;
+    width: 130px;
     height: 100%;
+    margin-left: 270px;
     display: flex;
-    margin-left: 250px;
     .avatar {
       width: 50px;
       height: 50px;
       border-radius: 25px;
       background-color: @theme1;
       margin-right: 10px;
-      margin-top: 15px;
+      margin-top: 5px;
       text-align: center;
       line-height: 45px;
       font-size: 30px;
@@ -212,13 +265,13 @@ export default {
     }
     .info {
       flex: 1;
-      height: 80px;
+      height: 60px;
       display: flex;
       flex-direction: column;
       .name {
         flex: 1;
         box-sizing: border-box;
-        line-height: 40px;
+        line-height: 30px;
         padding-left: 3px;
         .no-wrap();
       }
@@ -298,7 +351,7 @@ export default {
     border-radius: 5px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
     background-color: #fff;
-    .no-wrap();
+    .no-wrap;
   }
   .name {
     margin-right: 20px;

@@ -12,7 +12,9 @@ let url = development ? 'localhost:8000' : 'http://106.12.198.147:8000'
 Vue.use(new VueSocketio({
     connection:url
 }))
-
+if (window.require) {
+  Vue.prototype.$ipcRenderer = window.require('electron').ipcRenderer
+}
 new Vue({
   router,
   store,

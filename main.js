@@ -1,34 +1,24 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow,Menu,ipcMain } = require('electron')
 // 保持对window对象的全局引用，如果不这么做的话，当JavaScript对象被
 // 垃圾回收的时候，window对象将会自动的关闭
 let win
-
 function createWindow() {
+  Menu.setApplicationMenu(null)
   // 创建浏览器窗口。
   win = new BrowserWindow({
-    width: 1200,
-     height: 600, 
+    width: 1300,
+    height: 700,
+    minWidth:1300,
+    minHeight:700, 
+    frame:false,
      webPreferences:
     {
       nodeIntegration: true,
-
     }
   })
 
   //设置任务栏进度条
-  win.setProgressBar(0.5)
-  
-  // 设置任务栏缩略图
-  // win.setThumbarButtons([
-  //   {
-  //     tooltip: "button1",
-  //     click: function() { console.log("button2 clicked"); }
-  //   },
-  //   {
-  //     tooltip: "button2",
-  //     click: function() { console.log("button2 clicked."); }
-  //   }
-  // ]);
+  // win.setProgressBar(0.5)
 
   // 然后加载应用的 index.html。
   win.loadFile('./dist/index.html')
@@ -49,16 +39,6 @@ function createWindow() {
 // 创建浏览器窗口时，调用这个函数。
 // 部分 API 在 ready 事件触发后才能使用。
 app.on('ready', createWindow)
-app.setUserTasks([
-  {
-    program: process.execPath,
-    arguments: '--new-window',
-    iconPath: process.execPath,
-    iconIndex: 0,
-    title: 'New Window',
-    description: 'Create a new window'
-  }
-]);
 
 // 当全部窗口关闭时退出。
 app.on('window-all-closed', () => {
@@ -76,3 +56,13 @@ app.on('activate', () => {
       createWindow()
     }
   })
+
+ipcMain.on('min', e=> win.minimize());
+ipcMain.on('max', e=> {
+    if (win.isMaximized()) {
+        win.unmaximize()
+    } else {
+        win.maximize()
+    }
+});
+ipcMain.on('close', e=> win.close());

@@ -9,20 +9,20 @@
     "lint": "vue-cli-service lint",
     "start": "electron .",
     "exe": "npm run build && npm run start",
-    "asar":"asar pack dist ./pack/app.asar",
-    "packager":"electron-packager ./pack chat --win --out packagefile --arch=x64 --app.version 1.0 --overwrite --ignore=node_modules",
-    "asar--packager":"npm run asar && npm run packager"
+    "asar": "asar pack dist ./pack/app.asar",
+    "packager": "electron-packager ./pack chat --win --out packagefile --arch=x64 --icon=./chat.ico --app.version 1.0 --overwrite --ignore=node_modules",
+    "asar--packager": "npm run asar && npm run packager"
   },
   "dependencies": {
-    "express": "^4.16.4",
-    "mongodb": "^3.1.13",
-    "socket.io": "^2.2.0",
     "vue": "^2.6.6",
     "vue-router": "^3.0.1",
     "vue-socket.io": "^3.0.5",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
+    "express": "^4.16.4",
+    "mongodb": "^3.1.13",
+    "socket.io": "^2.2.0",
     "@vue/cli-plugin-babel": "^3.4.0",
     "@vue/cli-plugin-eslint": "^3.4.0",
     "@vue/cli-service": "^3.4.0",
