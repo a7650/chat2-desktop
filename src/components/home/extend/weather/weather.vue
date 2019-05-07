@@ -15,10 +15,15 @@ export default {
     return {
       city: "",
       weather: null,
-      weatherIcon: ""
+      weatherIcon: "",
+      other:""
     };
   },
   methods: {
+    otherWeather(){
+      // if(this.other)return;
+      this.$socket.emit("unified", "getWeather", {location:this.other});
+    },
     getWeather() {
       let _location = 'zhengzhou'
       this.$socket.emit("unified", "getWeather", {location:_location});
@@ -45,17 +50,14 @@ export default {
 .weather {
   height: 70px;
   width: 100%;
-  //   background-color: rgba(0, 0, 0, 0.08);
   border-radius: 10px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
   margin-bottom: 20px;
-  div{
+  .mes {
     width: 100%;
     height: 100%;
     line-height: 70px;
     text-align: center;
-  }
-  .mes {
     display: flex;
     justify-content: center;
   }

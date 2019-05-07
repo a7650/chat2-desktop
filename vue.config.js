@@ -1,7 +1,7 @@
 const path = require('path');
 
 function resolve (dir) {
-  console.log(__dirname)
+  // console.log(__dirname)
   return path.join(__dirname, dir)
 }
 module.exports = {

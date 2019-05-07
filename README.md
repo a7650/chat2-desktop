@@ -1,6 +1,7 @@
-# chat2的windows版本
 
-## 怎样使用
+# 这是chat2的windows版本
+
+## 使用方法
 
 使用前需要有 vue-cli3 , node , npm/cnpm/yarn , python , visual studio 环境
 

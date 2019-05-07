@@ -1,20 +1,23 @@
 <template>
-    <transition name="home">
-        <slot></slot>
-    </transition>
+  <transition name="home">
+    <slot></slot>
+  </transition>
 </template>
 
 <script>
-export default {
-
-}
+export default {};
 </script>
 
 <style>
-.home-enter{
-    opacity: 0;
+.home-enter,
+.home-leave-to {
+  transform: scale(0.7);
+  opacity: 0;
 }
-.home-enter-active{
-    transition: .3s;
+.home-enter-active {
+  transition:all .3s ease-out .3s;
+}
+.home-leave-active{
+    transition: 0.3s;
 }
 </style>

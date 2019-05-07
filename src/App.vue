@@ -5,11 +5,11 @@
 </template>
 <script>
 export default {
-  methods:{
-    alert(){
-      window.alert('功能暂未开放')
-    }
-  }
+  // methods:{
+  //   alert(){
+  //     window.alert('功能暂未开放')
+  //   }
+  // }
 }
 </script>
 

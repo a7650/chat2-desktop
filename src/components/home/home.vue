@@ -155,10 +155,13 @@ export default {
 @import "../../assets/mixin.less";
 .page-home {
   position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  top: 2px;
+  bottom: 2px;
+  left: 2px;
+  right: 2px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 4px rgba(0, 0, 0, .5);
 }
 .detail {
   background-color: #fff;

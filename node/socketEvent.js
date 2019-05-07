@@ -2,8 +2,9 @@ const io = require('./main').io
 const MDB = require('./MDBHandle')
 const USERS = MDB.users
 const axios = require('axios')
-const PUBLIC_KEY='PwF7MjhPinObMUPus'
+const PUBLIC_KEY = 'PwF7MjhPinObMUPus'
 const PRIVATE_KEY = 'S2Taedkg4hGEiYH8y'
+const BOOK_KEY = "3ce5a5d78aec8feb25365157eb311cd3"
 var ONLINE = {}
 var _ONLINE = {}
 
@@ -58,19 +59,20 @@ const events = {
             delete _ONLINE[id]
         }
     },
-    getWeather(socket,{location}){
+    getWeather(socket, { location }) {
         let url = `https://api.seniverse.com/v3/weather/now.json?key=${PRIVATE_KEY}&location=${location}&language=zh-Hans&unit=c`
-        axios.get(url).then(res=>{
-            socket.emit('c_unified_weather','c_getWeather',res.data)
+        axios.get(url).then(res => {
+            socket.emit('c_unified_weather', 'c_getWeather', res.data)
         })
     },
-    getSong(socket){
+    getSong(socket) {
         let data = {
-            name:'Blue',
-            singer:'Xeuphoria',
-            src:'http://dl.stream.qqmusic.qq.com/C400001gCBr03bgXiX.m4a?fromtag=38&guid=5931742855&vkey=49E08FB9505BB389957E521064EEF6DB2007DAA13E53ED77A0CB473374E7F933DBAC3409D3D8A74F77FAB4D74B391B0514358C1342D55722'
+            name: 'Photos Every Day',
+            singer: 'Rob Simonsen',
+            duration: 92,
+            src: 'http://106.12.198.147/chatn/resource/PhotosEveryDay.mp3'
         }
-        socket.emit('c_unified_getSong','c_getSong',data)
+        socket.emit('c_unified_getSong', 'c_getSong', data)
     },
     sendMessage(socket, data) {
         if (!(data && data.sendBy && data.sendTo)) {
@@ -163,34 +165,47 @@ const events = {
         })
     },
     removeSys(socket, { from, to }) {
-        USERS.get(from,user=>{
+        USERS.get(from, user => {
             user.updateOne({ flag: 2 }, {
                 $pull: {
-                    system: {sendBy:to}
+                    system: { sendBy: to }
                 }
             })
         })
     },
-    agreeFriend(socket,{from,to}){
-            USERS.get(from,(user,users)=>{
-                user.updateOne({flag:'config'},{
-                    $push:{
-                        friends:to
-                    }
-                })
-                let other = users.collection(to)
-                other.updateOne({flag:'config'},{
-                    $push:{
-                        friends:from
-                    }
-                })
+    agreeFriend(socket, { from, to }) {
+        USERS.get(from, (user, users) => {
+            user.updateOne({ flag: 'config' }, {
+                $push: {
+                    friends: to
+                }
             })
-            this.removeSys(undefined,{from,to})
-            let id = ONLINE[to]
-            if(id){
-                io.to(id).emit('c_unified_fs','refresh_fs',from)
-            }
-
+            let other = users.collection(to)
+            other.updateOne({ flag: 'config' }, {
+                $push: {
+                    friends: from
+                }
+            })
+        })
+        this.removeSys(undefined, { from, to })
+        let id = ONLINE[to]
+        if (id) {
+            io.to(id).emit('c_unified_fs', 'refresh_fs', from)
+        }
+    },
+    getBookData(socket){
+        let url = `http://apis.juhe.cn/goodbook/catalog?key=${BOOK_KEY}&dtype=json`
+        axios.get(url).then(res=>{
+            socket.emit('c_unified_book', 'c_getData', res.data)
+            // console.log(res)
+        })
+    },
+    getBookDetail(socket,{id}){
+        let url = `http://apis.juhe.cn/goodbook/query?key=${BOOK_KEY}&dtype=json&catalog_id=${id}`
+        axios.get(url).then(res=>{
+            socket.emit('c_unified_book', 'c_getBookData', res.data)
+            // console.log(res)
+        })
     }
 
 }

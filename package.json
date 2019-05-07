@@ -11,7 +11,8 @@
     "exe": "npm run build && npm run start",
     "asar": "asar pack dist ./pack/app.asar",
     "packager": "electron-packager ./pack chat --win --out packagefile --arch=x64 --icon=./chat.ico --app.version 1.0 --overwrite --ignore=node_modules",
-    "asar--packager": "npm run asar && npm run packager"
+    "asar--packager": "npm run asar && npm run packager",
+    "createexe":"npm run build && npm run asar--packager"
   },
   "dependencies": {
     "vue": "^2.6.6",

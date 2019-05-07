@@ -19,7 +19,16 @@ export default {
       processing: false
     };
   },
-  props: ["currentTime", "duration"],
+  props: {
+    currentTime: {
+      type: null,
+      default: 0
+    },
+    duration: {
+      type: null,
+      default: 0
+    }
+  },
   methods: {
     processEnter(e){
       e.currentTarget.classList.add('an-enter')
@@ -88,6 +97,9 @@ export default {
       if (!this.touch.init) {
         this.set_pos(n, "%");
       }
+    },
+    duration(n){
+      console.log(n)
     }
   },
   created() {

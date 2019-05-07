@@ -1,11 +1,11 @@
 <template>
   <div class="song">
-    <process-bar :currentTime="currentTime" :duration="duration" @turnProcess="turnProcess"></process-bar>
+    <process-bar :currentTime="currentTime" :duration="songData.duration" @turnProcess="turnProcess"></process-bar>
     <div class="controls">
       <div class="title">今日推荐:《{{songData.name}}》-{{songData.singer}}</div>
       <button class="toggle" @click="toggle" :class="{'playing':playing}">{{playing?'暂停':'播放'}}</button>
     </div>
-    <audio ref="audio" :src="songData.src" loop @timeupdate="timeupdate($event)" @canplay="audioCanPlay($event)"></audio>
+    <audio ref="audio" :src="songData.src" loop @timeupdate="timeupdate($event)"></audio>
   </div>
 </template>
 
@@ -14,10 +14,14 @@ import processBar from "./process-bar";
 export default {
   data() {
     return {
-      duration: null,
       currentTime: 0,
       playing: false,
-      songData:{}
+      songData:{
+        src:"",
+        duration:0,
+        name:"",
+        singer:""
+      }
     };
   },
   components: {
@@ -55,9 +59,6 @@ export default {
     timeupdate(e) {
       this.currentTime = e.currentTarget.currentTime;
     },
-    audioCanPlay(e) {
-      this.duration = e.currentTarget.duration;
-    }
   },
   mounted() {
     this.getSong();

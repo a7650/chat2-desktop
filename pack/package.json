@@ -2,7 +2,7 @@
   "name": "chat",
   "version": "0.1.0",
   "main": "main.js",
-  "author": "zzp",
+  "author": "z",
   "scripts": {
   "start": "electron ."
   }

@@ -202,10 +202,11 @@ export default {
 @import "../../assets/variable.less";
 .top-bar{
   width: 100%;
-  height: 10px;
-  position: fixed;
+  height: 30px;
+  position: absolute;
   top: 0;
   -webkit-app-region: drag;
+  z-index: 99;
   .icon{
     width: 30px;
     height: 30px;
@@ -214,6 +215,7 @@ export default {
     text-align: center;
     color: #777;
     font-size: 22px;
+    -webkit-app-region: no-drag;
   }
   .min{
     font-size: 13px;
@@ -239,14 +241,15 @@ export default {
 }
 .page-login {
   position: fixed;
-  top: 30px;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  animation-duration: .3s;
-  transition: .5s;
+  top:2px;
+  bottom: 2px;
+  left: 2px;
+  right: 2px;
+  box-shadow: 0 0 4px rgba(0, 0, 0, .5);
   user-select: none;
   -webkit-app-region: drag;
+  background-color: #fff;
+  border-radius: 5px;
   .window{
     -webkit-app-region: no-drag;
   }
