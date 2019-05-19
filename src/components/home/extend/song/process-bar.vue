@@ -97,9 +97,6 @@ export default {
       if (!this.touch.init) {
         this.set_pos(n, "%");
       }
-    },
-    duration(n){
-      console.log(n)
     }
   },
   created() {

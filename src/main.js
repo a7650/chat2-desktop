@@ -15,7 +15,9 @@ Vue.use(new VueSocketio({
     connection:url
 }))
 if (window.require) {
-  Vue.prototype.$ipcRenderer = window.require('electron').ipcRenderer
+  let {ipcRenderer,shell} = window.require('electron')
+  Vue.prototype.$ipcRenderer = ipcRenderer
+  Vue.prototype.$shell = shell
 }
 
 new Vue({

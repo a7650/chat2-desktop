@@ -59,10 +59,15 @@ const events = {
             delete _ONLINE[id]
         }
     },
+    getUserIP(socket){
+        socket.emit('c_unified_weather','c_getUserIP',socket.handshake.address)
+    },
     getWeather(socket, { location }) {
         let url = `https://api.seniverse.com/v3/weather/now.json?key=${PRIVATE_KEY}&location=${location}&language=zh-Hans&unit=c`
         axios.get(url).then(res => {
             socket.emit('c_unified_weather', 'c_getWeather', res.data)
+        }).catch(err=>{
+            socket.emit('c_unified_weather', 'c_getWeather', {error:1})
         })
     },
     getSong(socket) {

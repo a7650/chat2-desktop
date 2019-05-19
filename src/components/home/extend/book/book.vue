@@ -6,11 +6,11 @@
     <div class="detail" v-if="detailShow">
       <header @click="detailShow=false">
         <i class="icon-false"></i>
-        <div class="num">共{{current.length}}本</div>
+        <div class="num" v-show="current.length>0">共{{current.length}}本</div>
       </header>
       <ul>
         <li v-for="item in current" :key="item.title">
-          <a :href="item.online.split(/[\u4e00-\u9fa5]+/)[1].substring(1)" target="_blank">
+          <div @click="turnOnline(item.online)">
             <span class="title">{{item.title}}</span>
             <br>
             <span class="sub">{{item.sub1}}</span>
@@ -18,7 +18,7 @@
             <span class="time">{{item.bytime}}</span>
             <br>
             <span class="hot">{{item.reading}}</span>
-          </a>
+          </div>
         </li>
       </ul>
     </div>
@@ -104,6 +104,12 @@ export default {
     };
   },
   methods: {
+    turnOnline(url){
+      let _url = url.split(/[\u4e00-\u9fa5]+/)[1].substring(1);
+      if(this.$shell){
+        this.$shell.openExternal(_url)
+      }
+    },
     getData() {
       this.$socket.emit("unified", "getBookData");
     },
@@ -137,7 +143,7 @@ export default {
 
 <style  lang="less" scoped>
 .book {
-  max-height: 700px;
+  max-height: 280px;
   overflow-y: scroll;
   width: 100%;
   border-radius: 10px;
@@ -201,6 +207,9 @@ export default {
       font-size: 22px;
       font-weight: bold;
       color: #000;
+    }
+    .title:hover{
+      cursor: pointer;
     }
     .sub,
     .time,

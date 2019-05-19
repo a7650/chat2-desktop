@@ -14,4 +14,6 @@ io.on('connection',(socket)=>{
     init(socket)
 })
 
-// app.use(express.static('./dist'))
+app.use(express.static('./dist'))
+
+app.use('/resource',express.static('./resource'))
